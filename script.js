@@ -28,7 +28,15 @@ window.addEventListener('DOMContentLoaded', () => {
     
     modelViewer.addEventListener('ar-status', (event) => {
       console.log('AR Status:', event.detail.status);
-      if (event.detail.status === 'failed') {
+      if (event.detail.status === 'session-started') {
+        // Switch to test.glb when AR starts
+        console.log('AR started - switching to test.glb');
+        modelViewer.src = './test.glb';
+      } else if (event.detail.status === 'not-presenting') {
+        // Switch back to original model when AR ends
+        console.log('AR ended - switching back to original model');
+        modelViewer.src = './gas turbine engine exploded view. glTF.glb';
+      } else if (event.detail.status === 'failed') {
         console.error('AR failed to start');
         alert('AR failed: Make sure you\'re on a mobile device with AR support (Android 7+ with ARCore or iOS 11+ with ARKit)');
       }
