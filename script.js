@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Check AR capability on button click
     document.getElementById('ar-button').addEventListener('click', () => {
       console.log('View in my space clicked - redirecting to model_test');
-      window.location.href = './model_test.html';
+      window.location.href = './model_test/index.html';
     });
     
     modelViewer.addEventListener('ar-status', (event) => {
