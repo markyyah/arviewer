@@ -26,32 +26,21 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('AR supported:', modelViewer.canActivateAR);
     console.log('User agent:', navigator.userAgent);
     
+    // Check AR capability on button click
+    document.getElementById('ar-button').addEventListener('click', () => {
+      console.log('View in my space clicked - redirecting to model_test');
+      window.location.href = './model_test.html';
+    });
+    
     modelViewer.addEventListener('ar-status', (event) => {
       console.log('AR Status:', event.detail.status);
-      if (event.detail.status === 'session-started') {
-        // Switch to test.glb when AR starts
-        console.log('AR started - switching to test.glb');
-        modelViewer.src = './test.glb';
-      } else if (event.detail.status === 'not-presenting') {
-        // Switch back to original model when AR ends
-        console.log('AR ended - switching back to original model');
-        modelViewer.src = './gas turbine engine exploded view. glTF.glb';
-      } else if (event.detail.status === 'failed') {
+      if (event.detail.status === 'failed') {
         console.error('AR failed to start');
         alert('AR failed: Make sure you\'re on a mobile device with AR support (Android 7+ with ARCore or iOS 11+ with ARKit)');
       }
     });
     
-    // Check AR capability on button click
-    document.getElementById('ar-button').addEventListener('click', () => {
-      console.log('AR button clicked');
-      if (!modelViewer.canActivateAR) {
-        console.error('AR not supported');
-        alert('AR not supported on this device. Requirements:\n- Android 7+ with Google Play Services for AR\n- iOS 11+ with ARKit support\n- Chrome/Safari browser');
-      } else {
-        console.log('AR should start now');
-      }
-    });
+
     
     // Model error handling
     modelViewer.addEventListener('error', (event) => {
