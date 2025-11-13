@@ -9,7 +9,6 @@
 <body>
     <model-viewer 
         id="component-model-viewer"
-        src="./test.glb" 
         alt="Turbine Engine Component"
         ar 
         ar-modes="scene-viewer webxr quick-look" 
@@ -28,7 +27,7 @@
             <div class="update-bar"></div>
         </div>
         
-        <button slot="ar-button" id="ar-button" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;">
+        <button slot="ar-button" id="ar-button" style="display: none;">
             🚀 View in AR
         </button>
         
@@ -41,8 +40,7 @@
         <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.location.href='./index.html'">← Back to Full Model</button>
         
         <select id="component-dropdown" style="padding: 12px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); min-width: 200px;">
-            <option value="" style="background: white; color: black;">Select Component</option>
-            <option value="Air_inlet_and_cowling_section.glb" style="background: white; color: black;">Air Inlet & Cowling</option>
+            <option value="Air_inlet_and_cowling_section.glb" style="background: white; color: black;" selected>Air Inlet & Cowling</option>
             <option value="compressor_section.glb" style="background: white; color: black;">Compressor Section</option>
             <option value="Combustion_section.glb" style="background: white; color: black;">Combustion Section</option>
             <option value="Turbine_section.glb" style="background: white; color: black;">Turbine Section</option>
@@ -107,26 +105,45 @@
             const descriptionTitle = document.querySelector('#description-title');
             const descriptionContent = document.querySelector('#description-content');
             
+            // Auto-start AR when page loads
+            modelViewer.addEventListener('load', () => {
+                console.log('Model viewer loaded, checking AR capability');
+                if (modelViewer.canActivateAR) {
+                    console.log('AR supported, activating AR automatically');
+                    setTimeout(() => {
+                        modelViewer.activateAR();
+                    }, 1000);
+                } else {
+                    console.log('AR not supported on this device');
+                    alert('AR not supported. Please use a mobile device with AR capability.');
+                }
+            });
+            
+            // Handle AR status changes
+            modelViewer.addEventListener('ar-status', (event) => {
+                console.log('AR Status:', event.detail.status);
+                if (event.detail.status === 'session-started') {
+                    console.log('AR session started successfully');
+                } else if (event.detail.status === 'failed') {
+                    console.error('AR failed to start');
+                    alert('AR failed: Make sure you\'re on a mobile device with AR support');
+                }
+            });
+            
             // Handle dropdown change
             dropdown.addEventListener('change', (e) => {
                 const selectedModel = e.target.value;
                 console.log(`Switching to: ${selectedModel}`);
                 
-                if (selectedModel === '') {
-                    // Show default test.glb model
-                    modelViewer.src = './test.glb';
-                    document.getElementById('description-panel').style.display = 'none';
-                } else {
-                    // Update model source to component
-                    modelViewer.src = `./models_new/${selectedModel}`;
-                    
-                    // Update description
-                    const description = componentDescriptions[selectedModel];
-                    if (description) {
-                        descriptionTitle.textContent = description.title;
-                        descriptionContent.innerHTML = description.content;
-                        document.getElementById('description-panel').style.display = 'block';
-                    }
+                // Update model source to component
+                modelViewer.src = `./models_new/${selectedModel}`;
+                
+                // Update description
+                const description = componentDescriptions[selectedModel];
+                if (description) {
+                    descriptionTitle.textContent = description.title;
+                    descriptionContent.innerHTML = description.content;
+                    document.getElementById('description-panel').style.display = 'block';
                 }
                 
                 // Reset camera to default position
@@ -147,6 +164,9 @@
                 }
             };
             modelViewer.addEventListener('progress', onProgress);
+            
+            // Load a default model to initialize the viewer
+            modelViewer.src = './models_new/Air_inlet_and_cowling_section.glb';
         });
     </script>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
