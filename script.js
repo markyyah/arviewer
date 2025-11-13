@@ -28,8 +28,12 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Check AR capability on button click
     document.getElementById('ar-button').addEventListener('click', () => {
-      console.log('View in my space clicked - redirecting to model_test');
-      window.location.href = './model_test/index.html';
+      console.log('View in my space clicked - switching to AR mode');
+      document.getElementById('model-viewer').style.display = 'none';
+      document.getElementById('ar-scene').style.display = 'block';
+      document.getElementById('ar-ui').style.display = 'none';
+      document.getElementById('description-panel').style.display = 'none';
+      document.getElementById('ar-controls').style.display = 'block';
     });
     
     modelViewer.addEventListener('ar-status', (event) => {
@@ -260,5 +264,21 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
 
+  });
+  
+  // AR Controls
+  document.getElementById('exit-ar').addEventListener('click', () => {
+    document.getElementById('ar-scene').style.display = 'none';
+    document.getElementById('ar-controls').style.display = 'none';
+    document.getElementById('model-viewer').style.display = 'block';
+    document.getElementById('ar-ui').style.display = 'flex';
+  });
+  
+  document.getElementById('ar-component-select').addEventListener('change', (e) => {
+    const selectedComponent = e.target.value;
+    const arModel = document.querySelector('#ar-model');
+    if (arModel) {
+      arModel.setAttribute('src', `#${selectedComponent}`);
+    }
   });
 });
