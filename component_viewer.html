@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Component Viewer - World Space UI</title>
+    <title>Component Viewer - 3D Engine Parts</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
     <style>
         body { margin: 0; font-family: Arial, sans-serif; }
         #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; color: white; font-size: 18px; }
@@ -20,241 +19,127 @@
         renderer="colorManagement: true, physicallyCorrectLights">
         
         <a-assets>
-            <!-- Using external test models for faster loading -->
-            <a-asset-item id="air-inlet" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/bear/scene.gltf"></a-asset-item>
-            <a-asset-item id="compressor" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/raccoon/scene.gltf"></a-asset-item>
-            <a-asset-item id="combustion" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/bear/scene.gltf"></a-asset-item>
-            <a-asset-item id="turbine" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/raccoon/scene.gltf"></a-asset-item>
-            <a-asset-item id="exhaust" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/bear/scene.gltf"></a-asset-item>
+            <a-asset-item id="air-inlet" src="./models_new/Air_inlet_and_cowling_section.glb"></a-asset-item>
+            <a-asset-item id="compressor" src="./models_new/compressor_section.glb"></a-asset-item>
+            <a-asset-item id="combustion" src="./models_new/Combustion_section.glb"></a-asset-item>
+            <a-asset-item id="turbine" src="./models_new/Turbine_section.glb"></a-asset-item>
+            <a-asset-item id="exhaust" src="./models_new/exhaust_section.glb"></a-asset-item>
         </a-assets>
 
         <a-camera 
-            id="camera"
             position="0 1.6 3" 
             look-controls="enabled: true"
             wasd-controls="enabled: true"
             cursor="rayOrigin: mouse">
         </a-camera>
 
-        <a-entity id="ar-content" position="0 0 -2">
-            <!-- 3D Model -->
+        <a-entity id="content" position="0 0 -2">
             <a-gltf-model 
                 id="current-model"
                 src="#air-inlet" 
                 position="0 0 0" 
-                rotation="0 0 0"
-                scale="0.05 0.05 0.05"
-                animation-mixer="clip: *; loop: repeat">
+                scale="0.5 0.5 0.5">
             </a-gltf-model>
-
-            <!-- UI Panel in 3D Space -->
-            <a-plane 
-                id="ui-panel"
-                position="-1.5 0.8 0" 
-                rotation="0 30 0"
-                width="1.2" 
-                height="1.5" 
-                color="#2c3e50" 
-                opacity="0.9">
-                
-                <!-- Title -->
-                <a-text 
-                    value="Component Viewer" 
-                    position="0 0.6 0.01" 
-                    align="center" 
-                    color="white" 
-                    width="8">
-                </a-text>
-                
-                <!-- Component Buttons -->
-                <a-box 
-                    id="btn-air-inlet"
-                    class="component-btn"
-                    position="0 0.3 0.01" 
-                    width="1" 
-                    height="0.15" 
-                    depth="0.02" 
-                    color="#3498db"
-                    data-component="air-inlet">
-                    <a-text value="Air Inlet" position="0 0 0.02" align="center" color="white" width="6"></a-text>
-                </a-box>
-                
-                <a-box 
-                    id="btn-compressor"
-                    class="component-btn"
-                    position="0 0.1 0.01" 
-                    width="1" 
-                    height="0.15" 
-                    depth="0.02" 
-                    color="#e74c3c"
-                    data-component="compressor">
-                    <a-text value="Compressor" position="0 0 0.02" align="center" color="white" width="6"></a-text>
-                </a-box>
-                
-                <a-box 
-                    id="btn-combustion"
-                    class="component-btn"
-                    position="0 -0.1 0.01" 
-                    width="1" 
-                    height="0.15" 
-                    depth="0.02" 
-                    color="#f39c12"
-                    data-component="combustion">
-                    <a-text value="Combustion" position="0 0 0.02" align="center" color="white" width="6"></a-text>
-                </a-box>
-                
-                <a-box 
-                    id="btn-turbine"
-                    class="component-btn"
-                    position="0 -0.3 0.01" 
-                    width="1" 
-                    height="0.15" 
-                    depth="0.02" 
-                    color="#9b59b6"
-                    data-component="turbine">
-                    <a-text value="Turbine" position="0 0 0.02" align="center" color="white" width="6"></a-text>
-                </a-box>
-                
-                <a-box 
-                    id="btn-exhaust"
-                    class="component-btn"
-                    position="0 -0.5 0.01" 
-                    width="1" 
-                    height="0.15" 
-                    depth="0.02" 
-                    color="#27ae60"
-                    data-component="exhaust">
-                    <a-text value="Exhaust" position="0 0 0.02" align="center" color="white" width="6"></a-text>
-                </a-box>
-            </a-plane>
-
-            <!-- Description Panel in 3D Space -->
-            <a-plane 
-                id="description-panel-3d"
-                position="1.5 0 0" 
-                rotation="0 -30 0"
-                width="1.8" 
-                height="1.2" 
-                color="white" 
-                opacity="0.95">
-                
-                <a-text 
-                    id="description-title-3d"
-                    value="Air Inlet & Cowling" 
-                    position="0 0.4 0.01" 
-                    align="center" 
-                    color="#2c3e50" 
-                    width="6">
-                </a-text>
-                
-                <a-text 
-                    id="description-content-3d"
-                    value="The air inlet gets air to the compressor with minimal drag or pressure loss. Smooth airflow is essential for efficiency." 
-                    position="0 -0.1 0.01" 
-                    align="center" 
-                    color="#34495e" 
-                    width="4"
-                    wrap-count="35">
-                </a-text>
-            </a-plane>
         </a-entity>
-        
-        <!-- Ground plane for reference -->
-        <a-plane 
-            position="0 0 0" 
-            rotation="-90 0 0" 
-            width="10" 
-            height="10" 
-            color="#cccccc" 
-            opacity="0.1" 
-            visible="false">
-        </a-plane>
     </a-scene>
     
-    <div id="overlay" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px;">
-        <div style="color: white; margin-bottom: 10px; font-size: 14px;">Component Viewer - Use mouse/touch to look around</div>
+    <div id="ui" style="position: fixed; top: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;">
         <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.location.href='./index.html'">← Back</button>
+        
+        <select id="component-dropdown" style="padding: 12px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); min-width: 200px;">
+            <option value="air-inlet" style="background: white; color: black;">Air Inlet</option>
+            <option value="compressor" style="background: white; color: black;">Compressor Section</option>
+            <option value="combustion" style="background: white; color: black;">Combustion Section</option>
+            <option value="turbine" style="background: white; color: black;">Turbine Section</option>
+            <option value="exhaust" style="background: white; color: black;">Exhaust Section</option>
+        </select>
+    </div>
+    
+    <div id="description-panel" style="position: fixed; bottom: 20px; left: 20px; max-width: 350px; background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); z-index: 1000;">
+        <h3 id="description-title" style="margin: 0 0 15px 0; color: #333; font-size: 18px; font-weight: 600;">Air Inlet & Cowling</h3>
+        <div id="description-content" style="color: #555; font-size: 14px; line-height: 1.6;">
+            <p>The air inlet must get air to the compressor with the least possible fuss, meaning it should cause very little drag or pressure loss.</p>
+            <p><strong>Goal:</strong> The air flow entering the compressor needs to be smooth and free of turbulence.</p>
+            <p><strong>Result:</strong> A good design ensures maximum operating efficiency and helps boost the final pressure the compressor can create.</p>
+        </div>
     </div>
     
     <script>
-        // Component descriptions
         const componentDescriptions = {
             'air-inlet': {
                 title: 'Air Inlet & Cowling',
-                content: 'The air inlet gets air to the compressor with minimal drag or pressure loss. Smooth airflow is essential for efficiency.'
+                content: `
+                    <p>The air inlet must get air to the compressor with the least possible fuss, meaning it should cause very little drag or pressure loss.</p>
+                    <p><strong>Goal:</strong> The air flow entering the compressor needs to be smooth and free of turbulence.</p>
+                    <p><strong>Result:</strong> A good design ensures maximum operating efficiency and helps boost the final pressure the compressor can create.</p>
+                `
             },
             'compressor': {
                 title: 'Compressor Section',
-                content: 'The compressor supplies high-pressure air to combustion burners by increasing air pressure significantly.'
+                content: `
+                    <p>The main job of the compressor in a gas turbine engine is to supply enough high-pressure air to the combustion burners.</p>
+                    <p><strong>Goal:</strong> The compressor must take the large mass of air from the inlet and increase its pressure significantly.</p>
+                    <p><strong>Result:</strong> It then discharges this air to the burners in the exact quantity and at the necessary pressure required for the fuel to burn efficiently.</p>
+                `
             },
             'combustion': {
                 title: 'Combustion Section',
-                content: 'The combustion section burns fuel to heat air. This energy spins turbine blades and drives the compressor.'
+                content: `
+                    <p>The combustion section is where fuel is burned to make the air hotter.</p>
+                    <p><strong>Goal:</strong> The process of burning the air/fuel mixture releases energy (heat).</p>
+                    <p><strong>Result:</strong> The largest portion of this released energy is immediately used to spin the turbine blades, which in turn drives the compressor.</p>
+                `
             },
             'turbine': {
                 title: 'Turbine Section',
-                content: 'The turbine captures energy from hot exhaust gases, using 60-70% to drive the compressor and accessories.'
+                content: `
+                    <p>The turbine acts like a highly efficient windmill in the hot exhaust gas stream.</p>
+                    <p><strong>Goal:</strong> To capture the energy from the hot, high-pressure exhaust gases and turn it into mechanical energy.</p>
+                    <p><strong>Result:</strong> It uses about 60% to 70% of the gas pressure energy to drive the compressor and all the engine's accessories.</p>
+                `
             },
             'exhaust': {
                 title: 'Exhaust Section',
-                content: 'The exhaust section smooths gas flow and directs it out, creating high-speed thrust for the aircraft.'
+                content: `
+                    <p>The exhaust section is the final part of the engine where the gases exit.</p>
+                    <p><strong>Goal:</strong> To smooth out the flow of the hot gases, prevent turbulence, and direct them out the rear of the engine.</p>
+                    <p><strong>Result:</strong> It gives the exhaust gases a high final speed as they exit the engine, which produces the thrust.</p>
+                `
             }
         };
 
-        // Wait for A-Frame to load
         document.addEventListener('DOMContentLoaded', () => {
-            const scene = document.querySelector('a-scene');
-            const arContent = document.querySelector('#ar-content');
-            // Remove place button reference
-            let isPlaced = false;
-            
-            // Hide loading immediately
             document.getElementById('loading').style.display = 'none';
+            
+            const currentModel = document.querySelector('#current-model');
+            const descriptionTitle = document.querySelector('#description-title');
+            const descriptionContent = document.querySelector('#description-content');
+            const dropdown = document.querySelector('#component-dropdown');
+            
+            // Check URL parameters for specific component
+            const urlParams = new URLSearchParams(window.location.search);
+            const componentParam = urlParams.get('component');
+            
+            if (componentParam && componentDescriptions[componentParam]) {
+                dropdown.value = componentParam;
+                updateComponent(componentParam);
+            }
+            
+            function updateComponent(component) {
+                currentModel.setAttribute('src', `#${component}`);
                 
-                const currentModel = document.querySelector('#current-model');
-                const descriptionTitle = document.querySelector('#description-title-3d');
-                const descriptionContent = document.querySelector('#description-content-3d');
-                const componentButtons = document.querySelectorAll('.component-btn');
-                
-                // Show content immediately
-                arContent.setAttribute('visible', true);
-                
-                // Add click handlers to component buttons
-                componentButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const component = button.getAttribute('data-component');
-                        console.log(`Switching to: ${component}`);
-                        
-                        // Update model
-                        currentModel.setAttribute('src', `#${component}`);
-                        
-                        // Update description
-                        const description = componentDescriptions[component];
-                        if (description) {
-                            descriptionTitle.setAttribute('value', description.title);
-                            descriptionContent.setAttribute('value', description.content);
-                        }
-                        
-                        // Visual feedback - highlight selected button
-                        componentButtons.forEach(btn => {
-                            btn.setAttribute('opacity', '0.7');
-                        });
-                        button.setAttribute('opacity', '1');
-                    });
-                });
-                
-                // Set initial button highlight
-                document.querySelector('#btn-air-inlet').setAttribute('opacity', '1');
-                componentButtons.forEach(btn => {
-                    if (btn.id !== 'btn-air-inlet') {
-                        btn.setAttribute('opacity', '0.7');
-                    }
-                });
-                
-                // Show AR content immediately
-                arContent.setAttribute('visible', true);
-                
-            }, 500);
+                const description = componentDescriptions[component];
+                if (description) {
+                    descriptionTitle.textContent = description.title;
+                    descriptionContent.innerHTML = description.content;
+                }
+            }
+            
+            dropdown.addEventListener('change', (e) => {
+                const component = e.target.value;
+                console.log(`Switching to: ${component}`);
+                updateComponent(component);
+            });
         });
     </script>
 </body>
