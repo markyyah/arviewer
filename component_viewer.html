@@ -9,7 +9,7 @@
 <body>
     <model-viewer 
         id="component-model-viewer"
-        src="./models_new/Air_inlet_and_cowling_section.glb" 
+        src="./test.glb" 
         alt="Turbine Engine Component"
         ar 
         ar-modes="scene-viewer webxr quick-look" 
@@ -41,6 +41,7 @@
         <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.location.href='./index.html'">← Back to Full Model</button>
         
         <select id="component-dropdown" style="padding: 12px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); min-width: 200px;">
+            <option value="" style="background: white; color: black;">Select Component</option>
             <option value="Air_inlet_and_cowling_section.glb" style="background: white; color: black;">Air Inlet & Cowling</option>
             <option value="compressor_section.glb" style="background: white; color: black;">Compressor Section</option>
             <option value="Combustion_section.glb" style="background: white; color: black;">Combustion Section</option>
@@ -49,13 +50,9 @@
         </select>
     </div>
     
-    <div id="description-panel" style="display: block; position: fixed; bottom: 20px; left: 20px; max-width: 350px; background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); z-index: 1000;">
-        <h3 id="description-title" style="margin: 0 0 15px 0; color: #333; font-size: 18px; font-weight: 600;">Air Inlet & Cowling</h3>
-        <div id="description-content" style="color: #555; font-size: 14px; line-height: 1.6;">
-            <p>The air inlet must get air to the compressor with the least possible fuss, meaning it should cause very little drag or pressure loss.</p>
-            <p><strong>Goal:</strong> The air flow entering the compressor needs to be smooth and free of turbulence (rough, choppy flow).</p>
-            <p><strong>Result:</strong> A good design ensures maximum operating efficiency and helps boost the final pressure the compressor can create. Basically, a well-designed inlet helps the engine work better and makes the aircraft perform better.</p>
-        </div>
+    <div id="description-panel" style="display: none; position: fixed; bottom: 20px; left: 20px; max-width: 350px; background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); z-index: 1000;">
+        <h3 id="description-title" style="margin: 0 0 15px 0; color: #333; font-size: 18px; font-weight: 600;"></h3>
+        <div id="description-content" style="color: #555; font-size: 14px; line-height: 1.6;"></div>
     </div>
     
     <script>
@@ -115,14 +112,21 @@
                 const selectedModel = e.target.value;
                 console.log(`Switching to: ${selectedModel}`);
                 
-                // Update model source
-                modelViewer.src = `./models_new/${selectedModel}`;
-                
-                // Update description
-                const description = componentDescriptions[selectedModel];
-                if (description) {
-                    descriptionTitle.textContent = description.title;
-                    descriptionContent.innerHTML = description.content;
+                if (selectedModel === '') {
+                    // Show default test.glb model
+                    modelViewer.src = './test.glb';
+                    document.getElementById('description-panel').style.display = 'none';
+                } else {
+                    // Update model source to component
+                    modelViewer.src = `./models_new/${selectedModel}`;
+                    
+                    // Update description
+                    const description = componentDescriptions[selectedModel];
+                    if (description) {
+                        descriptionTitle.textContent = description.title;
+                        descriptionContent.innerHTML = description.content;
+                        document.getElementById('description-panel').style.display = 'block';
+                    }
                 }
                 
                 // Reset camera to default position
