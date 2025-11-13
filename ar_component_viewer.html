@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Component Viewer</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; color: white; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading AR Viewer...</div>
+    <a-scene 
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false;"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
+        
+        <a-assets>
+            <a-asset-item id="air-inlet" src="./models_new/Air_inlet_and_cowling_section.glb"></a-asset-item>
+            <a-asset-item id="compressor" src="./models_new/compressor_section.glb"></a-asset-item>
+            <a-asset-item id="combustion" src="./models_new/Combustion_section.glb"></a-asset-item>
+            <a-asset-item id="turbine" src="./models_new/Turbine_section.glb"></a-asset-item>
+            <a-asset-item id="exhaust" src="./models_new/exhaust_section.glb"></a-asset-item>
+        </a-assets>
+
+        <a-marker preset="hiro">
+            <a-entity id="ar-content" position="0 0 0">
+                <a-gltf-model 
+                    id="current-model"
+                    src="#air-inlet" 
+                    position="0 0 0" 
+                    scale="0.1 0.1 0.1">
+                </a-gltf-model>
+
+                <a-plane 
+                    id="ui-panel"
+                    position="-1.5 0.8 0" 
+                    rotation="0 30 0"
+                    width="1.2" 
+                    height="1.5" 
+                    color="#2c3e50" 
+                    opacity="0.9">
+                    
+                    <a-text 
+                        value="AR Component Viewer" 
+                        position="0 0.6 0.01" 
+                        align="center" 
+                        color="white" 
+                        width="8">
+                    </a-text>
+                    
+                    <a-box 
+                        id="btn-air-inlet"
+                        class="component-btn"
+                        position="0 0.3 0.01" 
+                        width="1" 
+                        height="0.15" 
+                        depth="0.02" 
+                        color="#3498db"
+                        data-component="air-inlet">
+                        <a-text value="Air Inlet" position="0 0 0.02" align="center" color="white" width="6"></a-text>
+                    </a-box>
+                    
+                    <a-box 
+                        id="btn-compressor"
+                        class="component-btn"
+                        position="0 0.1 0.01" 
+                        width="1" 
+                        height="0.15" 
+                        depth="0.02" 
+                        color="#e74c3c"
+                        data-component="compressor">
+                        <a-text value="Compressor" position="0 0 0.02" align="center" color="white" width="6"></a-text>
+                    </a-box>
+                    
+                    <a-box 
+                        id="btn-combustion"
+                        class="component-btn"
+                        position="0 -0.1 0.01" 
+                        width="1" 
+                        height="0.15" 
+                        depth="0.02" 
+                        color="#f39c12"
+                        data-component="combustion">
+                        <a-text value="Combustion" position="0 0 0.02" align="center" color="white" width="6"></a-text>
+                    </a-box>
+                    
+                    <a-box 
+                        id="btn-turbine"
+                        class="component-btn"
+                        position="0 -0.3 0.01" 
+                        width="1" 
+                        height="0.15" 
+                        depth="0.02" 
+                        color="#9b59b6"
+                        data-component="turbine">
+                        <a-text value="Turbine" position="0 0 0.02" align="center" color="white" width="6"></a-text>
+                    </a-box>
+                    
+                    <a-box 
+                        id="btn-exhaust"
+                        class="component-btn"
+                        position="0 -0.5 0.01" 
+                        width="1" 
+                        height="0.15" 
+                        depth="0.02" 
+                        color="#27ae60"
+                        data-component="exhaust">
+                        <a-text value="Exhaust" position="0 0 0.02" align="center" color="white" width="6"></a-text>
+                    </a-box>
+                </a-plane>
+
+                <a-plane 
+                    id="description-panel-3d"
+                    position="1.5 0 0" 
+                    rotation="0 -30 0"
+                    width="1.8" 
+                    height="1.2" 
+                    color="white" 
+                    opacity="0.95">
+                    
+                    <a-text 
+                        id="description-title-3d"
+                        value="Air Inlet & Cowling" 
+                        position="0 0.4 0.01" 
+                        align="center" 
+                        color="#2c3e50" 
+                        width="6">
+                    </a-text>
+                    
+                    <a-text 
+                        id="description-content-3d"
+                        value="The air inlet gets air to the compressor with minimal drag or pressure loss." 
+                        position="0 -0.1 0.01" 
+                        align="center" 
+                        color="#34495e" 
+                        width="4"
+                        wrap-count="35">
+                    </a-text>
+                </a-plane>
+            </a-entity>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+    
+    <div id="overlay" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px;">
+        <div style="color: white; margin-bottom: 10px; font-size: 14px;">AR Component Viewer - Point camera at Hiro marker</div>
+        <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.location.href='./viewer.html'">← Back</button>
+    </div>
+    
+    <script>
+        const componentDescriptions = {
+            'air-inlet': {
+                title: 'Air Inlet & Cowling',
+                content: 'The air inlet gets air to the compressor with minimal drag or pressure loss.'
+            },
+            'compressor': {
+                title: 'Compressor Section',
+                content: 'The compressor supplies high-pressure air to combustion burners.'
+            },
+            'combustion': {
+                title: 'Combustion Section',
+                content: 'The combustion section burns fuel to heat air.'
+            },
+            'turbine': {
+                title: 'Turbine Section',
+                content: 'The turbine captures energy from hot exhaust gases.'
+            },
+            'exhaust': {
+                title: 'Exhaust Section',
+                content: 'The exhaust section directs gases out creating thrust.'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loading').style.display = 'none';
+            
+            // Check URL parameters for specific component
+            const urlParams = new URLSearchParams(window.location.search);
+            const componentParam = urlParams.get('component');
+            
+            const currentModel = document.querySelector('#current-model');
+            const descriptionTitle = document.querySelector('#description-title-3d');
+            const descriptionContent = document.querySelector('#description-content-3d');
+            const componentButtons = document.querySelectorAll('.component-btn');
+            
+            function updateComponent(component) {
+                currentModel.setAttribute('src', `#${component}`);
+                
+                const description = componentDescriptions[component];
+                if (description) {
+                    descriptionTitle.setAttribute('value', description.title);
+                    descriptionContent.setAttribute('value', description.content);
+                }
+                
+                componentButtons.forEach(btn => btn.setAttribute('opacity', '0.7'));
+                document.querySelector(`#btn-${component}`).setAttribute('opacity', '1');
+            }
+            
+            // Set initial component from URL parameter
+            if (componentParam && componentDescriptions[componentParam]) {
+                updateComponent(componentParam);
+            }
+            
+            componentButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const component = button.getAttribute('data-component');
+                    updateComponent(component);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
