@@ -14,10 +14,10 @@
 <body>
     <div id="loading">Loading AR...</div>
     <a-scene 
-        background="color: transparent"
-        webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;"
-        renderer="colorManagement: true, physicallyCorrectLights"
-        device-orientation-permission-ui="enabled: false">
+        background="color: #000"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+        renderer="colorManagement: true, physicallyCorrectLights">
         
         <a-assets>
             <a-asset-item id="air-inlet" src="./models_new/Air_inlet_and_cowling_section.glb"></a-asset-item>
@@ -31,7 +31,7 @@
             id="camera"
             position="0 1.6 3" 
             look-controls="enabled: true"
-            wasd-controls="enabled: false"
+            wasd-controls="enabled: true"
             cursor="rayOrigin: mouse">
         </a-camera>
 
@@ -170,9 +170,9 @@
         </a-plane>
     </a-scene>
     
-    <div id="overlay" style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-        <button id="place-model" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Place Model</button>
-        <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;" onclick="window.location.href='./index.html'">← Back</button>
+    <div id="overlay" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px;">
+        <div style="color: white; margin-bottom: 10px; font-size: 14px;">Component Viewer - Use mouse/touch to look around</div>
+        <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="window.location.href='./index.html'">← Back</button>
     </div>
     
     <script>
@@ -204,7 +204,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const scene = document.querySelector('a-scene');
             const arContent = document.querySelector('#ar-content');
-            const placeButton = document.querySelector('#place-model');
+            // Remove place button reference
             let isPlaced = false;
             
             setTimeout(() => {
@@ -215,15 +215,8 @@
                 const descriptionContent = document.querySelector('#description-content-3d');
                 const componentButtons = document.querySelectorAll('.component-btn');
                 
-                // Place model button
-                placeButton.addEventListener('click', () => {
-                    if (!isPlaced) {
-                        arContent.setAttribute('visible', true);
-                        placeButton.textContent = 'Model Placed';
-                        placeButton.disabled = true;
-                        isPlaced = true;
-                    }
-                });
+                // Show content immediately
+                arContent.setAttribute('visible', true);
                 
                 // Add click handlers to component buttons
                 componentButtons.forEach(button => {
@@ -257,8 +250,8 @@
                     }
                 });
                 
-                // Initially hide AR content until placed
-                arContent.setAttribute('visible', false);
+                // Show AR content immediately
+                arContent.setAttribute('visible', true);
                 
             }, 2000);
         });
