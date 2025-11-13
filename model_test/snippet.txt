@@ -1,0 +1,24 @@
+<model-viewer src="test.glb" ar ar-modes="scene-viewer webxr quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="2" shadow-softness="0.52" camera-orbit="-766.1deg 53.45deg 245.9m" field-of-view="30deg">
+    <button class="Hotspot" slot="hotspot-1" data-position="-5.116764203256508m 17.18769055184947m 0.534739004090568m" data-normal="0.23509060891291358m 0.46253570979627706m 0.8548643885226531m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Air Inlet</div>
+    </button><button class="Hotspot" slot="hotspot-2" data-position="3.7958969506997278m 16.910543737387286m 1.2051890537190921m" data-normal="0.015742642891502397m 0.9345412461434036m 0.355506439395301m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Compressor</div>
+    </button><button class="Hotspot" slot="hotspot-4" data-position="10.614347011683332m 15.866945290202466m -5.319232211700087m" data-normal="-0.0000020131937470982752m 0.9883342153715948m 0.1523006195711662m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Combustion</div>
+    </button><button class="Hotspot" slot="hotspot-5" data-position="37.92038525677687m 15.132348671837292m -2.5859479743567704m" data-normal="-0.0003935806402054932m -0.04932177546158046m 0.9987828630686437m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Turbine</div>
+    </button><button class="Hotspot" slot="hotspot-6" data-position="49.77375948456099m 15.795862743369895m 2.285615888825504m" data-normal="0.35513783473736105m 0.42439682877090856m 0.8329252367813421m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Exhaust</div>
+    </button><button class="Hotspot" slot="hotspot-7" data-position="19.144086008036282m 17.214849214557944m -48.067728906075274m" data-normal="-0.13442684565177468m -0.27848425398213655m 0.9509868261191249m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Engine Cowling</div>
+    </button>
+    <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+        View in your space
+    </button>
+    <div id="ar-prompt">
+        <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+    </div>
+</model-viewer>
