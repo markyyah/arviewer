@@ -243,7 +243,7 @@ window.addEventListener('DOMContentLoaded', () => {
             'Engine cowling': 'air-inlet'
           };
           const componentId = componentMap[selectedHotspot];
-          window.location.href = `./ar_component_viewer.html?component=${componentId}`;
+          window.location.href = `./markerless_ar_viewer.html?component=${componentId}`;
         });
         
         // Remove existing button if any
