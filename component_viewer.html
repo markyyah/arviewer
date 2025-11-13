@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR Component Viewer - World Space UI</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
     <style>
         body { margin: 0; font-family: Arial, sans-serif; }
         #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; color: white; font-size: 18px; }
@@ -14,11 +14,9 @@
 <body>
     <div id="loading">Loading AR...</div>
     <a-scene 
-        mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/band-example/band.mind; showStats: false;" 
-        embedded 
-        color-space="sRGB" 
-        renderer="colorManagement: true, physicallyCorrectLights" 
-        vr-mode-ui="enabled: false" 
+        background="color: transparent"
+        webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;"
+        renderer="colorManagement: true, physicallyCorrectLights"
         device-orientation-permission-ui="enabled: false">
         
         <a-assets>
@@ -29,9 +27,15 @@
             <a-asset-item id="exhaust" src="./models_new/exhaust_section.glb"></a-asset-item>
         </a-assets>
 
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <a-camera 
+            id="camera"
+            position="0 1.6 3" 
+            look-controls="enabled: true"
+            wasd-controls="enabled: false"
+            cursor="rayOrigin: mouse">
+        </a-camera>
 
-        <a-entity mindar-image-target="targetIndex: 0">
+        <a-entity id="ar-content" position="0 0 -2">
             <!-- 3D Model -->
             <a-gltf-model 
                 id="current-model"
@@ -153,7 +157,23 @@
                 </a-text>
             </a-plane>
         </a-entity>
+        
+        <!-- Ground plane for reference -->
+        <a-plane 
+            position="0 0 0" 
+            rotation="-90 0 0" 
+            width="10" 
+            height="10" 
+            color="#cccccc" 
+            opacity="0.1" 
+            visible="false">
+        </a-plane>
     </a-scene>
+    
+    <div id="overlay" style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+        <button id="place-model" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Place Model</button>
+        <button id="back-btn" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;" onclick="window.location.href='./index.html'">← Back</button>
+    </div>
     
     <script>
         // Component descriptions
@@ -182,6 +202,11 @@
 
         // Wait for A-Frame to load
         document.addEventListener('DOMContentLoaded', () => {
+            const scene = document.querySelector('a-scene');
+            const arContent = document.querySelector('#ar-content');
+            const placeButton = document.querySelector('#place-model');
+            let isPlaced = false;
+            
             setTimeout(() => {
                 document.getElementById('loading').style.display = 'none';
                 
@@ -189,6 +214,16 @@
                 const descriptionTitle = document.querySelector('#description-title-3d');
                 const descriptionContent = document.querySelector('#description-content-3d');
                 const componentButtons = document.querySelectorAll('.component-btn');
+                
+                // Place model button
+                placeButton.addEventListener('click', () => {
+                    if (!isPlaced) {
+                        arContent.setAttribute('visible', true);
+                        placeButton.textContent = 'Model Placed';
+                        placeButton.disabled = true;
+                        isPlaced = true;
+                    }
+                });
                 
                 // Add click handlers to component buttons
                 componentButtons.forEach(button => {
@@ -221,6 +256,9 @@
                         btn.setAttribute('opacity', '0.7');
                     }
                 });
+                
+                // Initially hide AR content until placed
+                arContent.setAttribute('visible', false);
                 
             }, 2000);
         });
