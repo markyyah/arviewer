@@ -169,31 +169,6 @@ window.addEventListener('DOMContentLoaded', () => {
         hotspots.forEach(h => h.style.display = 'block');
       }
       
-      // Add component viewer button to description panel
-      if (selectedHotspot && selectedHotspot !== '') {
-        const viewComponentBtn = document.createElement('button');
-        viewComponentBtn.textContent = 'View Component in 3D';
-        viewComponentBtn.style.cssText = 'margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;';
-        viewComponentBtn.addEventListener('click', () => {
-          const componentMap = {
-            'Air Inlet': 'air-inlet',
-            'Compressor Section': 'compressor',
-            'Combustion Section': 'combustion',
-            'Turbine Section': 'turbine',
-            'Exhaust Section': 'exhaust',
-            'Engine cowling': 'air-inlet'
-          };
-          const componentId = componentMap[selectedHotspot];
-          window.location.href = `./component_viewer.html?component=${componentId}`;
-        });
-        
-        // Remove existing button if any
-        const existingBtn = descriptionPanel.querySelector('button');
-        if (existingBtn) existingBtn.remove();
-        
-        descriptionPanel.appendChild(viewComponentBtn);
-      }
-      
       // Show description panel
       const descriptionPanel = document.getElementById('description-panel');
       const descriptionTitle = document.getElementById('description-title');
@@ -239,10 +214,43 @@ window.addEventListener('DOMContentLoaded', () => {
           <p><strong>Result:</strong> It gives the exhaust gases a high final speed (velocity) as they exit the engine, which produces the thrust (forward push).</p>
         `;
         descriptionPanel.style.display = 'block';
+      } else if (selectedHotspot === 'Engine cowling') {
+        descriptionTitle.textContent = 'Engine Cowling';
+        descriptionContent.innerHTML = `
+          <p>The engine cowling provides protection and aerodynamic efficiency for the engine components.</p>
+          <p><strong>Goal:</strong> To protect internal components while maintaining smooth airflow around the engine.</p>
+          <p><strong>Result:</strong> Reduces drag and provides access for maintenance while protecting the engine from external elements.</p>
+        `;
+        descriptionPanel.style.display = 'block';
       } else if (selectedHotspot === '') {
         descriptionPanel.style.display = 'none';
       } else {
         descriptionPanel.style.display = 'none';
+      }
+      
+      // Add component viewer button to description panel
+      if (selectedHotspot && selectedHotspot !== '') {
+        const viewComponentBtn = document.createElement('button');
+        viewComponentBtn.textContent = 'View Component in 3D';
+        viewComponentBtn.style.cssText = 'margin-top: 15px; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;';
+        viewComponentBtn.addEventListener('click', () => {
+          const componentMap = {
+            'Air Inlet': 'air-inlet',
+            'Compressor Section': 'compressor',
+            'Combustion Section': 'combustion',
+            'Turbine Section': 'turbine',
+            'Exhaust Section': 'exhaust',
+            'Engine cowling': 'air-inlet'
+          };
+          const componentId = componentMap[selectedHotspot];
+          window.location.href = `./component_viewer.html?component=${componentId}`;
+        });
+        
+        // Remove existing button if any
+        const existingBtn = descriptionPanel.querySelector('button');
+        if (existingBtn) existingBtn.remove();
+        
+        descriptionPanel.appendChild(viewComponentBtn);
       }
       
       // Debug log current camera position after animation
