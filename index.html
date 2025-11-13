@@ -3,79 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Turbine Engine</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AR Turbine Engine Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <model-viewer 
-        id="model-viewer"
-        src="./gas turbine engine exploded view. glTF.glb" 
-        alt="AR Turbine Engine Model"
-        ar 
-        ar-modes="scene-viewer webxr quick-look" 
-        ar-scale="fixed"
-        camera-controls 
-        tone-mapping="neutral" 
-        poster="./poster.webp" 
-        shadow-intensity="1.18" 
-        shadow-softness="0.4" 
-        autoplay 
-        environment-image="./aircraft_workshop_01_1k.hdr" 
-        interpolation-decay="200" 
-        camera-orbit-transition-time="2000ms">
-        
-        <button class="Hotspot" slot="hotspot-1" data-surface="0 0 226 224 225 0.361 0.462 0.177" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Air Inlet</div>
-        </button>
-        <button class="Hotspot" slot="hotspot-2" data-surface="0 0 28200 28201 28199 0.188 0.030 0.782" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Compressor Section</div>
-        </button>
-        <button class="Hotspot" slot="hotspot-3" data-surface="825 0 295 297 298 0.107 0.348 0.545" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Exhaust Section</div>
-        </button>
-        <button class="Hotspot" slot="hotspot-4" data-surface="45 0 30 31 32 0.527 0.264 0.209" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Turbine Section</div>
-        </button>
-        <button class="Hotspot" slot="hotspot-5" data-surface="722 0 2213 2211 1988 0.068 0.459 0.473" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Engine cowling</div>
-        </button>
-        <button class="Hotspot" slot="hotspot-6" data-surface="0 0 0 0 0 -0.168 -0.192 0.5" data-visibility-attribute="visible">
-            <div class="HotspotAnnotation">Combustion Section</div>
-        </button>
-        
-        <div class="progress-bar hide" slot="progress-bar">
-            <div class="update-bar"></div>
+    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 pt-0 pb-10">
+        <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl mb-8">
+            <!-- Centered Larger Redirect Button with More Space -->
+            <div class="flex justify-center mb-8">
+                <a href="./viewer.html"
+                   class="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold rounded-xl shadow-lg transition duration-200">
+                    Start learning!
+                </a>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">About Us</h1>
+            <p class="text-gray-700 mb-2 text-center">
+                <span class="font-semibold">Enhancing Memory Retention Through AR-Based Learning:</span>
+                <br>
+                <span>
+                    A Study on the Gas Turbine Engine Module Among First-Year Aircraft Maintenance Technology Students at Daniel P. Rivera Aviation College
+                </span>
+            </p>
+            <p class="text-gray-700 mt-4 mb-2 font-medium">
+                Project Context
+            </p>
+            <p class="text-gray-700 mb-4">
+                In response to the rapidly advancing field of aviation technology, this project explores the transformative potential of Augmented Reality (AR) in aviation education. Focusing on first-year Aircraft Maintenance Technology (AMT) students at Daniel P. Rivera Aviation College, the study leverages AR to deliver immersive, interactive learning experiences on the complex gas turbine engine module. By integrating AR with traditional teaching methods, the project aims to boost student engagement, deepen conceptual understanding, and significantly enhance long-term memory retention. Grounded in Mayer's Cognitive Theory of Multimedia Learning, this research pioneers the use of cutting-edge AR tools to prepare future aircraft technicians for real-world challenges, ensuring safety, precision, and operational excellence in aviation maintenance.
+            </p>
         </div>
-        
-        <button slot="ar-button" id="ar-button" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;">
-            🚀 View in my space
-        </button>
-        
-        <div id="ar-prompt">
-            <img src="./ar_hand_prompt.png">
+        <div class="bg-white shadow rounded-lg p-6 w-full max-w-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Meet the Researchers</h2>
+            <ul class="space-y-2 text-gray-700 text-center">
+                <li class="font-medium">Castro, Ryan Mart G.</li>
+                <li class="font-medium">Corpuz, Jodilyn P.</li>
+                <li class="font-medium">Fidel, John Lester G.</li>
+                <li class="font-medium">Legaspi, Julian Yonj M.</li>
+                <li class="font-medium">Niebres, Cylryan L.</li>
+                <li class="font-medium">Taruc, John Reynaldo T.</li>
+                <li class="font-medium">Vargas, Lander Abidja H.</li>
+            </ul>
+            <div class="flex items-center justify-center space-x-4 mt-2">
+                <img src="./dpr_logo.png" 
+                     alt="DPR Aviation College" 
+                     class="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shadow" />
+                <div class="text-center text-gray-500 text-sm font-semibold">
+                    DPR Aviation College
+                </div>
+            </div>
         </div>
-    </model-viewer>
-    
-    <div id="ar-ui" style="position: fixed; top: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;">
-        <button id="reset-btn" style="display: none; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Show All Hotspots</button>
-        
-        <select id="hotspot-dropdown" style="padding: 12px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); min-width: 200px;">
-            <option value="" style="background: white; color: black;">Select Component</option>
-            <option value="Air Inlet" style="background: white; color: black;">Air Inlet</option>
-            <option value="Compressor Section" style="background: white; color: black;">Compressor Section</option>
-            <option value="Combustion Section" style="background: white; color: black;">Combustion Section</option>
-            <option value="Turbine Section" style="background: white; color: black;">Turbine Section</option>
-            <option value="Exhaust Section" style="background: white; color: black;">Exhaust Section</option>
-            <option value="Engine cowling" style="background: white; color: black;">Engine cowling</option>
-        </select>
     </div>
-    
-    <div id="description-panel" style="display: none; position: fixed; bottom: 20px; left: 20px; max-width: 350px; background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); z-index: 1000;">
-        <h3 id="description-title" style="margin: 0 0 15px 0; color: #333; font-size: 18px; font-weight: 600;"></h3>
-        <div id="description-content" style="color: #555; font-size: 14px; line-height: 1.6;"></div>
-    </div>
-    
-    <script src="script.js"></script>
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </body>
 </html>
