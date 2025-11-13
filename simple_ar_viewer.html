@@ -30,13 +30,13 @@
             <a-asset-item id="exhaust" src="./models_new/exhaust_section.glb"></a-asset-item>
         </a-assets>
 
-        <a-entity id="ar-content" position="0 0 -1">
+        <a-entity id="ar-content" position="0 0 -2">
             <a-gltf-model 
                 id="current-model"
                 src="#air-inlet" 
-                position="0 0 0" 
-                scale="0.3 0.3 0.3"
-                rotation="0 0 0">
+                position="0 1 0" 
+                scale="1 1 1"
+                rotation="0 45 0">
             </a-gltf-model>
         </a-entity>
 
@@ -46,7 +46,7 @@
     <button id="back-btn" onclick="window.location.href='./viewer.html'">← Back</button>
     
     <div id="instructions">
-        Point your camera around to see the 3D model in AR space
+        Look around with your camera - the model should appear 2 meters in front of you at eye level
     </div>
     
     <script>
